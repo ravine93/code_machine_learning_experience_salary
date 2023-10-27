@@ -1,0 +1,42 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+xx = np.array([-0.51, 51.2])
+yy = np.array([0.33, 51.6])
+means = [xx.mean(), yy.mean()]  
+stds = [xx.std() / 3, yy.std() / 3]
+corr = 0.8 #Correlação
+covs = [[stds[0]**2, stds[0]*stds[1]*corr],[stds[0]*stds[1]*corr,stds[1]**2]] 
+m = np.random.multivariate_normal(means, covs, 1000).T #Gerando Dados Sintéticos com Correlação
+df=pd.DataFrame() #imprime as cinco primeiras linhas do DataFrame
+df = pd.read_csv("/workspaces/code_machine_learning_experience_salary/Salary.csv") #Acessando os dados
+print(df.head()) #Mostrando tabela dos dados acessados
+print ()
+df['experience(in months)']=m[0] #Preenchendo o DataFrame com dados sintéticos
+df['salary(in thousands)']=m[1]
+X=df.iloc[:,0:1].values
+y=df.iloc[:,1].values
+
+from sklearn.model_selection import train_test_split #Executanod a divisão de teste
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.25)
+print(X_train.shape)
+print(X_test.shape)
+print () 
+from sklearn.linear_model import LinearRegression #Criando um modelo de regressão linear
+regressor=LinearRegression()
+regressor.fit(X_train,y_train) #Criando e treinando um modelo de regressão linear
+print(regressor.coef_[0]) #Exibindo coeficientes do modelo de regressão linear
+print(regressor.intercept_)
+print ()
+
+from sklearn.metrics import r2_score, mean_squared_error
+
+y_pred = regressor.predict(X_test)
+
+r2 = r2_score(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+
+print(f"R²: {r2}")
+print(f"MSE: {mse}")
