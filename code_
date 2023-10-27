@@ -31,12 +31,4 @@ print(regressor.coef_[0]) #Exibindo coeficientes do modelo de regressão linear
 print(regressor.intercept_)
 print ()
 
-from sklearn.metrics import r2_score, mean_squared_error
 
-y_pred = regressor.predict(X_test)
-
-r2 = r2_score(y_test, y_pred)
-mse = mean_squared_error(y_test, y_pred)
-
-print(f"R²: {r2}")
-print(f"MSE: {mse}")
