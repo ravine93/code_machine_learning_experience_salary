@@ -31,4 +31,32 @@ print(regressor.coef_[0]) #Exibindo coeficientes do modelo de regressão linear
 print(regressor.intercept_)
 print ()
 
+ptreino = pd.read_csv("Salary_750.csv")
+pteste = pd.read_csv("Salary_250.csv")
 
+exptreino = ptreino['exp(in months)']
+salarytreino = ptreino['salary(in thousands)']
+expteste = pteste['exp(in months)']
+salaryteste = pteste['salary(in thousands)']
+
+#TESTE
+rg = LinearRegression()
+rg.fit(exptreino.values.reshape(exptreino.size,1), salarytreino)
+print("Intercept: ", rg.intercept_)
+print("Slope", rg.coef_[0])
+print()
+
+def get_regression_predictions(input_feature, intercept, slope):
+    predicted_values = intercept + slope*input_feature
+    return predicted_values
+
+remuneracao = 12
+estimated_salary = get_regression_predictions (remuneracao, rg.intercept_, rg.coef_[0])
+print('O salario para', remuneracao, 'meses de experiencia eh de',(estimated_salary*1000), 'dolares')
+print()
+
+#TREINO
+rg = LinearRegression()
+rg.fit(expteste.values.reshape(expteste.size,1), salaryteste)
+print("Intercept: ", rg.intercept_)
+print("Slope", rg.coef_[0])
