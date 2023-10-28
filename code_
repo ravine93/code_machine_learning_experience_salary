@@ -39,7 +39,7 @@ salarytreino = ptreino['salary(in thousands)']
 expteste = pteste['exp(in months)']
 salaryteste = pteste['salary(in thousands)']
 
-#TESTE
+#Treino
 rg = LinearRegression()
 rg.fit(exptreino.values.reshape(exptreino.size,1), salarytreino)
 print("Intercept: ", rg.intercept_)
@@ -55,8 +55,18 @@ estimated_salary = get_regression_predictions (remuneracao, rg.intercept_, rg.co
 print('O salario para', remuneracao, 'meses de experiencia eh de',(estimated_salary*1000), 'dolares')
 print()
 
-#TREINO
-rg = LinearRegression()
-rg.fit(expteste.values.reshape(expteste.size,1), salaryteste)
-print("Intercept: ", rg.intercept_)
-print("Slope", rg.coef_[0])
+#Teste
+rg2 = LinearRegression()
+rg2.fit(expteste.values.reshape(expteste.size,1), salaryteste)
+print("Intercept: ", rg2.intercept_)
+print("Slope", rg2.coef_[0])
+print()
+
+def get_regression_predictions(input_feature, intercept, slope):
+    predicted_values2 = intercept + slope*input_feature
+    return predicted_values2
+
+remuneracao2 = 12
+estimated_salary2 = get_regression_predictions (remuneracao2, rg2.intercept_, rg2.coef_[0])
+print('O salario para', remuneracao2, 'meses de experiencia eh de',(estimated_salary2*1000), 'dolares')
+print()
